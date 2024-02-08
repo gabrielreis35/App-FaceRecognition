@@ -11,7 +11,7 @@ def listFarmaceuticos(request):
         data = Farmaceutico.objects.all()
     context = {'farmaceuticos': data}
     
-    return HttpResponse(request, 'farmaceuticos/ListFarmaceuticos.html', context)
+    return render(request, 'farmaceuticos/ListFarmaceuticos.html', context)
 
 
 def createFarmaceutico(request):
