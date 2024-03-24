@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.serializers import ModelSerializer, ValidationError, EmailField, CharField, Serializer
 
 from django.contrib.auth import get_user_model
+from .models import  UserProfile
 from django.contrib.auth.models import Group
 
 User = get_user_model()
@@ -139,5 +140,19 @@ class LogoutSerializer(ModelSerializer):
                 pass
 
             return Response(status=status.HTTP_200_OK)
+
+
+class UserProfileSerializer(ModelSerializer):
+
+
+    class Meta:
+        model = UserProfile
+        fields = ['login',
+                  'Cpf',
+                  'Nome',
+                  'Crm',
+                  'Rg',
+                  "TipoUsuario"]
+
 
 

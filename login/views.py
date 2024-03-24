@@ -6,7 +6,8 @@ from .serializers import (
     UserListarSerializer,
     LogoutSerializer,
     LoginSerializer,
-    CadastroUsuarioSerializer
+    CadastroUsuarioSerializer,
+    UserProfileSerializer
     )
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
@@ -14,6 +15,7 @@ from rest_framework import status
 from rest_framework.generics import(
     CreateAPIView,
     ListAPIView)
+from .models import  UserProfile
 
 User = get_user_model()
 
@@ -66,6 +68,43 @@ class LogOutView(APIView):
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
+class UserProfileCreateView (CreateAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.all()
+
+    def post(self, request, *args, **kwargs):
+
+        print(request.data)
+     
+        if User.objects.filter(username=request.data['username']).exists():
+            return Response("username já cadastrado  favor informar outro username", status=HTTP_400_BAD_REQUEST)
+
+        if User.objects.filter(email=request.data['email']).exists():
+            return Response("email já cadastrado  favor informar outro username", status=HTTP_400_BAD_REQUEST)
+
+        if UserProfile.objects.filter(Cpf=request.data['Cpf']).exists():
+            return Response("Cpf já cadastrado  favor informar outro username", status=HTTP_400_BAD_REQUEST)
+        login = User.objects.create_user(username=request.data['username'], password=request.data['password'],email=request.data['email'])
+        UserProfileData = {
+            'login':login.id,
+            'Cpf':request.data['Cpf'],
+            'Nome':request.data['Nome'],
+            'Crm':request.data['Crm'],
+            'Rg':request.data['Rg'],
+            'TipoUsuario':request.data['TipoUsuario']
+        }
+        serializer = UserProfileSerializer(data= UserProfileData)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response("Usuário salvo com sucesso", status=HTTP_200_OK)
+        return Response("Erro ao cadastrar as informações", status=HTTP_400_BAD_REQUEST)
+
+class UserProfileViewAll (ListAPIView):
+
+    serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.all()
+    pagination_class = None
 
 
 
