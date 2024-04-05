@@ -14,4 +14,5 @@ urlpatterns = [
     # url(r'^cadastro/$', UserCreateView.as_view(), name='cadastro'),
     # url(r'^userProfile/$', UserProfileCreateView.as_view(), name='cadastro'),
     path('create/', UserCreateView.as_view(), name='createUser'),
+    path('', LoginView.as_view(), name='login'),
 ]

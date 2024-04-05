@@ -52,16 +52,19 @@ class UserListViewAll (ListAPIView):
 
 
 class LoginView(APIView):
-
     permission_classes = [AllowAny]
     serializer_class = LoginSerializer
 
+    def get(self, request, *args, **kwargs):
+        serializer = self.serializer_class()
+        return render(request, 'usuarios/login.html')
+                      
     def post(self, request, *args, **kwargs):
         data = request.data
         serializer = LoginSerializer(data=data)
         if serializer.is_valid():
-            return Response(serializer.data, status=HTTP_200_OK)
-        return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+            return render(request, 'listPrescricoes', {'form': serializer.data})
+        return render(request, 'usuarios/login.html', {'form': serializer.data})
 
 
 class LogOutView(APIView):

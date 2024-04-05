@@ -18,12 +18,11 @@ from django.contrib import admin
 from django.urls import path,re_path
 from django.urls.conf import include
 
-from farmaceuticos import views
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('farmaceuticos/', include('farmaceuticos.urls')),
     path('usuarios/', include('login.urls')),
     path('medicamentos/', include('medicamentos.urls')),
+    path('pacientes/', include('pacientes.urls')),
+    path('prescricoes/', include('prescricoes.urls')),
     # re_path('login/', include('login.urls')),
 ]

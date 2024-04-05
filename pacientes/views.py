@@ -29,7 +29,7 @@ def novoPaciente(request):
         criarPaciante = PacienteForm(request.POST)
         if criarPaciante.is_valid():
             criarPaciante.save()
-            return redirect('listMedicamentos')
+            return redirect('listPacientes')
         
     contexto = {'criarPaciante': criarPaciante}
     return render(request, 'paciente/novoPaciente.html', contexto)

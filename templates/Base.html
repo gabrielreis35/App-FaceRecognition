@@ -9,15 +9,36 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
-    {% block content %}
-    {% endblock %}
+    <!-- Barra de navegação -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Sistema de Saúde</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listMedicamentos' %}">Medicamentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listPrescricoes' %}">Prescrições</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listPacientes' %}">Pacientes</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-    <script scr="{% static 'js/scripts.js' %}"></script>
-    <script
-        integrity="sha256-B8sHvfukDO/4abMp60ju7eQXQLps6DPdODC9CvSeSJg="
-        crossorigin="anonymous"></script>
+    <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
     <script src="{% static 'js/bs/bootstrap.js' %}"></script>
     <script src="https://kit.fontawesome.com/8f8a4bcfa0.js" crossorigin="anonymous"></script>
-    
 </body>
 </html>

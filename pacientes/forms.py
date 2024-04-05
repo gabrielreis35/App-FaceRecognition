@@ -5,7 +5,7 @@ from django.forms import ModelForm
 from .models import Paciente
 
 
-class medicamentoSelect(forms.Select):
+class pacienteSelect(forms.Select):
     def create_option(self, name, value, label, selected, index, subindex = None, attrs = None):
         option: super().create_option(name, value, label, selected, index, subindex, attrs)
         if value:
@@ -15,7 +15,7 @@ class medicamentoSelect(forms.Select):
 class PacienteForm(ModelForm):
     class Meta:
         model = Paciente
-        fields = '__all__'
+        fields = 'Nome', 'Cpf', 'Email', 'Rg'
         widgets = {
             'Nome': forms.TextInput(attrs={'class': 'form-control'}),
             'Cpf': forms.TextInput(attrs={'class': 'form-control'}),
@@ -36,13 +36,11 @@ class PacienteForm(ModelForm):
         rg = cleaned_data.get('Rg')
         email = cleaned_data.get('Email')
         
-        if not cpf and not rg and not email:
-            raise forms.ValidationError('Informe ao menos um campo para salvar o paciente')
+        if not rg:
+            raise forms.ValidationError('Informe o RG do paciente')
+        if not cpf:
+            raise forms.ValidationError('Informe o CPF do paciente')
+        if not email:
+            raise forms.ValidationError('Informe o Email do paciente')
         
         return cleaned_data
-    
-    def save(self, commit=True):
-        paciente = super(PacienteForm, self).save(commit=False)
-        if commit:
-            paciente.save()
-        return paciente
