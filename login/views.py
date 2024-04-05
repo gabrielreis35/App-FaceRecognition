@@ -16,6 +16,7 @@ from rest_framework.generics import(
     CreateAPIView,
     ListAPIView)
 from .models import  UserProfile
+from django.shortcuts import render
 
 User = get_user_model()
 
@@ -24,7 +25,11 @@ class UserCreateView (CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = CadastroUsuarioSerializer
     queryset = User.objects.all()
-
+    
+    def get(self, request, *args, **kwargs):
+        serializer = self.serializer_class()
+        return render(request, 'usuarios/createUser.html', {'form': serializer})
+    
     def post(self, request, *args, **kwargs):
 
         if(User.objects.filter(username = request.data['username']).exists()):

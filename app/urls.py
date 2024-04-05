@@ -23,5 +23,7 @@ from farmaceuticos import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('farmaceuticos/', include('farmaceuticos.urls')),
-    re_path('login/', include('login.urls')),
+    path('usuarios/', include('login.urls')),
+    path('medicamentos/', include('medicamentos.urls')),
+    # re_path('login/', include('login.urls')),
 ]

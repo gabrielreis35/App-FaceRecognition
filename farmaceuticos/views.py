@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Farmaceutico
 from .forms import FarmaceuticoForm
+from login.models import UserProfile
 
 def listFarmaceuticos(request):
     pesquisa = request.GET.get('pesquisa')
     if pesquisa:
-        data = Farmaceutico.objects.filter(Nome__icontains=pesquisa)  
+        data = UserProfile.objects.filter(TipoUsuario="farmaceutico") #Farmaceutico.objects.filter(Nome__icontains=pesquisa)  
     else:    
         data = Farmaceutico.objects.all()
     context = {'farmaceuticos': data}

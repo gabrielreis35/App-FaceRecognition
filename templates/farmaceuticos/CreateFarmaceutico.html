@@ -1,21 +1,34 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastrar Farmacêutico</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+    <style>
+        .form-container {
+            margin-right: 50px; /* Adicione a distância desejada aqui */
+        }
+    </style>
 </head>
 <body>
-    <h1>Cadastrar Farmacêutico</h1>
+    <div class="container mt-5 form-container">
+        <h1>Cadastrar Farmacêutico</h1>
 
-    <form method="post" action="{% url 'createFarmaceutico' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
+        <form method="post" action="{% url 'createFarmaceutico' %}" class="mb-4 form-container">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-        <button type="submit">Salvar</button>
-    </form>
-    
-    <a href="{% url 'listFarmaceuticos' %}">Voltar para a lista de farmacêuticos</a>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+        
+        <a href="{% url 'listFarmaceuticos' %}" class="btn btn-secondary">Voltar para a lista de farmacêuticos</a>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

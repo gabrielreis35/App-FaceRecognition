@@ -5,7 +5,8 @@ class Medicamento(models.Model):
     Nome = models.CharField(max_length=100)
     RFID = models.CharField(max_length=100)
     Quantidade = models.IntegerField()
-    DataRetirada = models.DateTimeField()
+    Porta = models.IntegerField()
+    DataCriacao = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.Nome

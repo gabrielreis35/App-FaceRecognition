@@ -3,6 +3,7 @@ from django.db.models import Q
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, ValidationError, EmailField, CharField, Serializer
 
 from django.contrib.auth import get_user_model
@@ -12,43 +13,69 @@ from django.contrib.auth.models import Group
 User = get_user_model()
 
 
-class CadastroUsuarioSerializer(ModelSerializer):
-
-    email = EmailField(label='email')
-    email_confirma = EmailField(label='confirme email')
+class CadastroUsuarioSerializer(serializers.ModelSerializer):
+    email_confirma = serializers.EmailField(label='Confirme o email', write_only=True)
+    password = serializers.CharField(write_only=True, style={'input_type': 'password'})
 
     class Meta:
         model = User
-        fields = ['first_name',
-                  'last_name',
-                  'username',
-                  'email',
-                  'email_confirma',
-                  'password']
+        fields = ['first_name', 'last_name', 'username', 'email', 'email_confirma', 'password']
+        extra_kwargs = {
+            'username': {'validators': []},  # Removendo os validadores padrão do username
+        }
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        email_confirma = attrs.pop('email_confirma')
+        if email != email_confirma:
+            raise serializers.ValidationError("Os emails digitados são diferentes")
+        return attrs
 
     def create(self, validated_data):
-        username = validated_data['username']
-        email = validated_data['email']
-        senha = validated_data['password']
-        email_confirma = validated_data['email_confirma']
+        password = validated_data.pop('password')
+        email_confirma = validated_data.pop('email_confirma')
+        user = User.objects.create(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
 
-        if User.objects.filter(username=username).exists():
-            raise ValidationError("Informar outro username")
+# class CadastroUsuarioSerializer(ModelSerializer):
 
-        if User.objects.filter(email=email).exists():
-            raise ValidationError("Email já associado a um usuário cadastrado")
+#     email = EmailField(label='email')
+#     email_confirma = EmailField(label='confirme email')
 
-        if email != email_confirma:
-            raise ValidationError("Os emails digitados são diferentes")
-        usuario_novo = User(
-            username=username,
-            email=email
-        )
-        usuario_novo.set_password(senha)
-        usuario_novo.first_name = validated_data['first_name']
-        usuario_novo.last_name = validated_data['last_name']
-        usuario_novo.save()
-        return validated_data
+#     class Meta:
+#         model = User
+#         fields = ['first_name',
+#                   'last_name',
+#                   'username',
+#                   'email',
+#                   'email_confirma',
+#                   'password']
+
+#     def create(self, validated_data):
+#         username = validated_data['username']
+#         email = validated_data['email']
+#         senha = validated_data['password']
+#         email_confirma = validated_data['email_confirma']
+
+#         if User.objects.filter(username=username).exists():
+#             raise ValidationError("Informar outro username")
+
+#         if User.objects.filter(email=email).exists():
+#             raise ValidationError("Email já associado a um usuário cadastrado")
+
+#         if email != email_confirma:
+#             raise ValidationError("Os emails digitados são diferentes")
+#         usuario_novo = User(
+#             username=username,
+#             email=email
+#         )
+#         usuario_novo.set_password(senha)
+#         usuario_novo.first_name = validated_data['first_name']
+#         usuario_novo.last_name = validated_data['last_name']
+#         usuario_novo.save()
+#         return validated_data
 
 
 class UserListarSerializer(ModelSerializer):
