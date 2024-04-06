@@ -34,13 +34,15 @@ def novaPrescricao(request):
         if criarPrescricao.is_valid():
             prescricao = criarPrescricao.save(commit=False)
             prescricao.Medico = UserProfile.objects.get(id=2)
-            
-            print(request.POST.getlist('Medicamentos'))
-            medicamentos_selecionados = request.POST.getlist('Medicamentos')
-            medicamentos_validos = Medicamento.objects.filter(Id__in=medicamentos_selecionados)
-            prescricao.Medicamentos.set(medicamentos_validos)
-            
             prescricao.save()
+
+            print(request.POST.getlist('Medicamentos'))
+            
+            medicamentos_selecionados = request.POST.getlist('Medicamentos')
+            for item in medicamentos_selecionados:
+                medicamento = Medicamento.objects.get(Id=int(item))
+                prescricao.Medicamentos.add(medicamento)            
+            
             return redirect('listPrescricoes')
         
     contexto = {'criarPrescricao': criarPrescricao}

@@ -9,6 +9,7 @@ class Prescricao(models.Model):
     Paciente = models.ForeignKey(Paciente, null=True, on_delete=models.SET_NULL)
     Medicamentos = models.ManyToManyField(Medicamento)
     Data = models.DateTimeField(auto_now_add=True)
+    Ativo = models.BooleanField(default=True)
     
     def __str__(self):
         return self.Id
