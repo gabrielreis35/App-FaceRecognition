@@ -4,7 +4,7 @@ from medicamentos.models import Medicamento
 from login.models import UserProfile
 
 class Prescricao(models.Model):
-    Id = models.IntegerField(primary_key=True)
+    Id = models.IntegerField(primary_key=True, auto_created=True)
     Medico = models.ForeignKey(UserProfile, null=True, on_delete=models.SET_NULL)
     Paciente = models.ForeignKey(Paciente, null=True, on_delete=models.SET_NULL)
     Medicamentos = models.ManyToManyField(Medicamento)
@@ -12,7 +12,7 @@ class Prescricao(models.Model):
     Ativo = models.BooleanField(default=True)
     
     def __str__(self):
-        return self.Id
+        return str(self.Id)
     
     class Meta:
         db_table = 'Prescricao'

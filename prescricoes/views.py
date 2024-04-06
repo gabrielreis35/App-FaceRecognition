@@ -33,9 +33,12 @@ def novaPrescricao(request):
         criarPrescricao = PrescricaoForm(request.POST)
         if criarPrescricao.is_valid():
             prescricao = criarPrescricao.save(commit=False)
-            prescricao.Medico = UserProfile.objects.get(id=2)
+            prescricao.Medico = UserProfile.objects.get(id=1)
             prescricao.save()
-
+            id_prescricao = len(Prescricao.objects.all())
+            
+            prescricao = Prescricao.objects.get(Id=id_prescricao)
+            # prescricao = Prescricao.objects.get(Id=prescricao.Id)
             print(request.POST.getlist('Medicamentos'))
             
             medicamentos_selecionados = request.POST.getlist('Medicamentos')
