@@ -36,7 +36,6 @@ class UserCreateView (CreateAPIView):
             return Response('Usuário já cadastrado com o username', status=status.HTTP_400_BAD_REQUEST)
         if (User.objects.filter(email=request.data['email']).exists()):
             return Response('O e-mail informado já foi cadastrado no sistema.', status=status.HTTP_400_BAD_REQUEST)
-
         serializer = CadastroUsuarioSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

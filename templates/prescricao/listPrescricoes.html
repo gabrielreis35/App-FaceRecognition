@@ -29,7 +29,7 @@
                         <td>{{ prescricao.Medico.Nome }}</td>
                         <td>{{ prescricao.Paciente.Nome }}</td>
                         <td>{{ prescricao.Data }}</td>
-                        <td><a href="{% url 'detalhesPrescricao' prescricao.Id %}">Visualizar</a></td>
+                        <td><a href="{% url 'detalhesPrescricao' prescricao.id %}">Visualizar</a></td>
                     </tr>
                 {% empty %}
                     <tr>

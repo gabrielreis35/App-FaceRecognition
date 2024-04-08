@@ -14,7 +14,7 @@ class UserProfile(models.Model):
 
     Crm = models.CharField(max_length=100)
     Rg = models.CharField(max_length=100)
-    ReconhecimentoFacial = models.ImageField(upload_to='ReconhecimentoFacial')
+    ReconhecimentoFacial = models.ImageField(upload_to='ReconhecimentoFacial', null=True, blank=True)
     TipoUsuario = models.CharField(max_length=20)
 
     def __str__(self):

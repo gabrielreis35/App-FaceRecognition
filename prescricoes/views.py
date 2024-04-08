@@ -21,7 +21,7 @@ def listPrescricoes(request):
     return render(request, 'prescricao/listPrescricoes.html', contexto)
 
 def detalhesPrescricao(request, id):
-    prescricao = Prescricao.objects.get(Id=id)
+    prescricao = Prescricao.objects.get(id=id)
     medicamentos_prescritos = prescricao.Medicamentos.all()
     
     contexto = {'prescricao': prescricao, 'medicamentos_prescritos': medicamentos_prescritos}
@@ -37,13 +37,13 @@ def novaPrescricao(request):
             prescricao.save()
             id_prescricao = len(Prescricao.objects.all())
             
-            prescricao = Prescricao.objects.get(Id=id_prescricao)
+            prescricao = Prescricao.objects.get(id=id_prescricao)
             # prescricao = Prescricao.objects.get(Id=prescricao.Id)
             print(request.POST.getlist('Medicamentos'))
             
             medicamentos_selecionados = request.POST.getlist('Medicamentos')
             for item in medicamentos_selecionados:
-                medicamento = Medicamento.objects.get(Id=int(item))
+                medicamento = Medicamento.objects.get(id=int(item))
                 prescricao.Medicamentos.add(medicamento)            
             
             return redirect('listPrescricoes')
@@ -52,7 +52,7 @@ def novaPrescricao(request):
     return render(request, 'prescricao/novaPrescricao.html', contexto)
 
 def editarPrescricao(request, id):
-    prescricao = Prescricao.objects.get(Id=id)
+    prescricao = Prescricao.objects.get(id=id)
     editarPrescricao = PrescricaoForm(instance=prescricao)
     if request.method == 'POST':
         editarPrescricao = PrescricaoForm(request.POST, instance=prescricao)
