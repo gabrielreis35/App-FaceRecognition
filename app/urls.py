@@ -24,5 +24,5 @@ urlpatterns = [
     path('medicamentos/', include('medicamentos.urls')),
     path('pacientes/', include('pacientes.urls')),
     path('', include('prescricoes.urls')),
-    # re_path('login/', include('login.urls')),
+    re_path('login/', include('login.urls')),
 ]
