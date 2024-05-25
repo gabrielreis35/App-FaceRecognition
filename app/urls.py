@@ -23,6 +23,6 @@ urlpatterns = [
     path('usuarios/', include('login.urls')),
     path('medicamentos/', include('medicamentos.urls')),
     path('pacientes/', include('pacientes.urls')),
-    path('prescricoes/', include('prescricoes.urls')),
+    path('', include('prescricoes.urls')),
     # re_path('login/', include('login.urls')),
 ]

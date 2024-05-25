@@ -3,7 +3,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
             
     var formData = new FormData(this);
             
-    fetch('/api/login/', {
+    fetch('/usuarios/', {
         method: 'POST',
         body: formData,
     })

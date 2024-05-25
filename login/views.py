@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
@@ -114,4 +115,15 @@ class UserProfileViewAll (ListAPIView):
     pagination_class = None
 
 
+def listUsers(request):
+    pesquisa = request.GET.get('pesquisa')
+    if (pesquisa):
+        users = User.objects.filter(TipoUsuario__contains=pesquisa)
+    else:
+        users = User.objects.all()
+        paginacao = Paginator(users, 10)
+        pagina = request.GET.get('page')
+        prescricoes = paginacao.get_page(pagina)
 
+    contexto = {'usuarios': users}
+    return render(request, 'usuarios/listUsuarios.html', contexto)
