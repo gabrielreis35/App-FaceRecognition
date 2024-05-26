@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'prescricoes',
     'login',
     'storages',
+    'utils',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +75,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
+                'utils.context_processors.user',
             ],
         },
     },
@@ -162,6 +165,8 @@ class MediaStorage(S3Boto3Storage):
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cnd')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+LOGIN_URL = '/usuarios/login/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.core.paginator import Paginator
 
@@ -7,6 +8,7 @@ from django.shortcuts import render, redirect
 from .forms import PrescricaoForm
 from login.models import UserProfile
 
+@login_required
 def listPrescricoes(request):
     pesquisa = request.GET.get('pesquisa')
     if (pesquisa):
